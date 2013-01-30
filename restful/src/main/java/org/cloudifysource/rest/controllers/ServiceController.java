@@ -2284,6 +2284,7 @@ public class ServiceController implements ServiceDetailsProvider {
 				}
 			}
 		} else {
+			final ComputeTemplate template = getComputeTemplate(cloud, templateName);
 			deployment
 					.addCommandLineArgument("-Xmx" + cloud.getConfiguration().getComponents().getUsm().getMaxMemory())
 					.addCommandLineArgument("-Xms" + cloud.getConfiguration().getComponents().getUsm().getMinMemory())
@@ -3534,10 +3535,6 @@ public class ServiceController implements ServiceDetailsProvider {
 			final GridServiceContainerConfig gscConfig = new GridServiceContainerConfig(properties);
 			final long cloudExternalProcessMemoryInMB = gscConfig.getMaximumMemoryCapacityInMB();
 
-			// final CloudTemplate template = getComputeTemplate(cloud,
-			// templateName);
-			// final long cloudExternalProcessMemoryInMB = calculateExternalProcessMemory(
-			// cloud, template);
 			// TODO - set-instances is not supported when the "shared" flag is
 			// (CLOUDIFY-1158)
 			// currently we fall back to the previous impl
