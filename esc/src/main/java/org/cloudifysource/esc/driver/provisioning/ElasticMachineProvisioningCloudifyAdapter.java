@@ -780,22 +780,25 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 				// to cloud driver.
 				handleServiceCloudConfiguration();
 				this.cloudifyProvisioning.setConfig(cloud, cloudTemplateName, false, serviceName);
-				this.storageTemplateName = config.getStorageTemplateName();
-				if (isStorageTemplateUsed()) {
+				
+				String storageClassName = this.cloud.getConfiguration().getStorageClassName();
+				if (StringUtils.isNotBlank(storageClassName)) {
+					// instantiate the storage driver if defined.
+					// even if no storage template is used, this is to allow dynamic allocation at runtime.
+					logger.info("creating storage provisioning driver.");
+					this.storageProvisioning = 
+							(StorageProvisioningDriver) Class.forName(storageClassName).newInstance();					
+					this.storageTemplateName = config.getStorageTemplateName();
 					boolean privileged = computeTemplate.isPrivileged();
 					// mounting the volume will not be possible if not running in privileged mode. 
-					if (!privileged) {
+					if (!privileged && isStorageTemplateUsed()) {
 						logger.warning("Storage template defined but not running in privileged mode.");
 						throw new StorageProvisioningException("Storage mounting requires running in privileged mode."
 								+ " This should be defined in the cloud's compute template.");
 					}
-					logger.info("creating storage provisioning driver.");
-					this.storageProvisioning = 
-							(StorageProvisioningDriver) Class.forName(this.cloud.getConfiguration()
-									.getStorageClassName()).newInstance();
 					if (this.storageProvisioning instanceof BaseStorageDriver) {
 						((BaseStorageDriver) this.storageProvisioning)
-												.setComputeContext(cloudifyProvisioning.getComputeContext());
+						.setComputeContext(cloudifyProvisioning.getComputeContext());
 					}
 					this.storageProvisioning.setConfig(cloud, this.cloudTemplateName, this.storageTemplateName);
 					logger.info("storage provisioning driver created successfully.");
