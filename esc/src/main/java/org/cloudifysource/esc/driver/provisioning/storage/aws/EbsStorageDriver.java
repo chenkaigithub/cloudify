@@ -246,7 +246,7 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 			throws StorageProvisioningException {
 		Set<VolumeDetails> volumeDetails = new HashSet<VolumeDetails>();
 		try {
-			Set<Volume> allVolumes = this.ebsClient.describeVolumesInRegion(this.region, (String[]) null);
+			Set<Volume> allVolumes = this.ebsClient.describeVolumesInRegion((String) null, (String[]) null);
 			for (Volume volume : allVolumes) {
 				volumeDetails.add(createVolumeDetails(volume));
 			}
