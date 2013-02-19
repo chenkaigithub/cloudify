@@ -13,7 +13,10 @@
 /restful/bin/
 /CLI/bin
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 #/cloudify/CLI/target
 /CLI/nodes.properties
 /CLI/temp.xml
@@ -22,7 +25,10 @@
 /CLI/.project
 /CLI/target
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 # /USM/
 /USM/target
 /USM/test-output
@@ -36,7 +42,10 @@
 /USM/resources/tomcat
 /USM/resources/tomcat-local
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 # /USM/resources/usm-cassandra/ext/
 /USM/resources/usm-cassandra/ext/cassandra_storage
 
@@ -114,7 +123,10 @@
 /dsl/.classpath
 /dsl/.project
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 # /eclipse-plugin
 /eclipse-plugin
 
@@ -124,7 +136,10 @@
 /esc/.classpath
 /esc/.project
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 # /esc-commands/
 /esc-commands/target
 /esc-commands/.settings/
@@ -148,14 +163,20 @@
 /rest-client/.project
 /rest-client/target
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 # /restful/
 /restful/target
 /restful/.settings
 /restful/.classpath
 /restful/.project
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fixed security issue. added missing quote
 #/cloudify
 /cloudify/target
 /cloudify/releases
