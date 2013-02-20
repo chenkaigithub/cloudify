@@ -12,6 +12,6 @@ import org.cloudifysource.dsl.context.ServiceContext;
  */
 public interface RemoteStorageProvisioningDriver extends Remote {
 	
-	String ping();
+	String hello();
 
 }

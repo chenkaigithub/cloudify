@@ -376,17 +376,12 @@ public class ServiceContextImpl implements ServiceContext {
 	public String getMachineID() {
 		final String envVar = System
 				.getenv(CloudifyConstants.GIGASPACES_CLOUD_MACHINE_ID);
-
+		
 		return envVar;
 	}
 
 	@Override
-	public String pingStorage() {
-		
-		if (storageProvisioningDriver == null) {
-			storageProvisioningDriver = getStorageImpl();
-		}
-		
-		return storageProvisioningDriver.ping();
+	public String helloStorage() {	
+		return storageProvisioningDriver.hello();
 	}
 }
