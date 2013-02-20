@@ -411,7 +411,11 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 	}
 
 	boolean isStorageTemplateUsed() {
-		return !StringUtils.isEmpty(this.storageTemplateName);
+		logger.info("in isStorageTemplateUsed() --> this.storageTemplateName = " + this.storageTemplateName);
+		boolean empty = StringUtils.isEmpty(this.storageTemplateName);
+		logger.info("is empty = " + empty);
+		logger.info(this.storageTemplateName.toString());
+		return !empty;
 	}
 
 	void attachStorageVolumeToMachine(final String machineIp, final VolumeDetails volumeDetails, final long end)
@@ -790,9 +794,8 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 							(StorageProvisioningDriver) Class.forName(storageClassName).newInstance();					
 					this.storageTemplateName = config.getStorageTemplateName();
 					boolean privileged = computeTemplate.isPrivileged();
-					// mounting the volume will not be possible if not running in privileged mode. 
-					if (!privileged && isStorageTemplateUsed()) {
-						logger.warning("Storage template defined but not running in privileged mode.");
+					// mounting the volume will not be possible if not running in privileged mode.
+					if ( !privileged && isStorageTemplateUsed()) {
 						throw new StorageProvisioningException("Storage mounting requires running in privileged mode."
 								+ " This should be defined in the cloud's compute template.");
 					}

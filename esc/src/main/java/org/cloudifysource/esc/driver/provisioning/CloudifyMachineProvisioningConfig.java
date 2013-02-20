@@ -103,7 +103,9 @@ public class CloudifyMachineProvisioningConfig implements ElasticMachineProvisio
 			final String cloudTemplateName, final String managementTemplateRemoteDirectory, 
 			final String storageTemplateName) {
 		
-		setStorageTemplateName(storageTemplateName);
+		if (storageTemplateName != null) {
+			setStorageTemplateName(storageTemplateName);
+		}
 		setMinimumNumberOfCpuCoresPerMachine(template.getNumberOfCores());
 
 		setReservedMemoryCapacityPerMachineInMB(cloud.getProvider().getReservedMemoryCapacityPerMachineInMB());
