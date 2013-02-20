@@ -133,7 +133,7 @@ public class ServiceContextImpl implements ServiceContext {
 			logger.info("waiting for elastic service manager...");
 			elasticServiceManager = admin.getElasticServiceManagers().waitForAtLeastOne();
 			logger.info("found manager " + elasticServiceManager);
-			return (RemoteStorageProvisioningDriver) ((InternalElasticServiceManager)elasticServiceManager).getStorageApi(service.getName());
+			return (RemoteStorageProvisioningDriver) ((InternalElasticServiceManager)elasticServiceManager).getStorageApi(ServiceUtils.getAbsolutePUName(applicationName, serviceName));
 		} else {
 			logger.info("admin is null!!");
 			return null;
