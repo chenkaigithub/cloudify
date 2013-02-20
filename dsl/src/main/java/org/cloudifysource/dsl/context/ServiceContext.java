@@ -133,6 +133,6 @@ public interface ServiceContext {
 	String getMachineID();
 
 	
-	String pingStorage();
+	String helloStorage();
 
 }
