@@ -26,6 +26,8 @@ import org.cloudifysource.dsl.utils.ServiceUtils;
 import org.cloudifysource.dsl.utils.ServiceUtils.FullServiceName;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminException;
+import org.openspaces.admin.esm.ElasticServiceManager;
+import org.openspaces.admin.internal.esm.InternalElasticServiceManager;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.core.cluster.ClusterInfo;
 
@@ -39,6 +41,7 @@ public class ServiceContextImpl implements ServiceContext {
 
 	private org.cloudifysource.dsl.Service service;
 	private Admin admin;
+	private RemoteStorageProvisioningDriver storageProvisioningDriver;
 	private final String serviceDirectory;
 	private ClusterInfo clusterInfo;
 	private boolean initialized = false;
@@ -94,6 +97,7 @@ public class ServiceContextImpl implements ServiceContext {
 			final ClusterInfo clusterInfo) {
 		this.service = service;
 		this.admin = admin;
+		this.storageProvisioningDriver = getStorageImpl();
 
 		// TODO - is the null path even possible?
 		if (clusterInfo == null) {
@@ -123,6 +127,19 @@ public class ServiceContextImpl implements ServiceContext {
 		}
 		this.attributesFacade = new AttributesFacade(this, admin);
 		initialized = true;
+	}
+
+	private RemoteStorageProvisioningDriver getStorageImpl() {
+		ElasticServiceManager elasticServiceManager = null;
+		if (admin != null) {
+			logger.info("waiting for elastic service manager...");
+			elasticServiceManager = admin.getElasticServiceManagers().waitForAtLeastOne();
+			logger.info("found manager " + elasticServiceManager);
+			return (RemoteStorageProvisioningDriver) ((InternalElasticServiceManager)elasticServiceManager).getStorageApi(service.getName());
+		} else {
+			logger.info("admin is null!!");
+			return null;
+		}
 	}
 
 	/************
@@ -365,4 +382,13 @@ public class ServiceContextImpl implements ServiceContext {
 		return envVar;
 	}
 
+	@Override
+	public String pingStorage() {
+		
+		if (storageProvisioningDriver == null) {
+			storageProvisioningDriver = getStorageImpl();
+		}
+		
+		return storageProvisioningDriver.ping();
+	}
 }
