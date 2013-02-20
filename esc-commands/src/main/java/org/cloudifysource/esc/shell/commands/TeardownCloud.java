@@ -81,7 +81,6 @@ public class TeardownCloud extends AbstractGSCommand {
 		this.force = force;
 	}
 	
-
 	@Override
 	protected Object doExecute() throws Exception {
 
