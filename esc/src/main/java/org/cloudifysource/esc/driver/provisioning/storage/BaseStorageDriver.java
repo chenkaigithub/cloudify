@@ -23,7 +23,12 @@ import java.util.Set;
  * @author adaml
  *
  */
-public abstract class BaseStorageDriver {
+public abstract class BaseStorageDriver implements StorageProvisioningDriver {
+	
+	@Override
+	public String hello() {
+		throw new UnsupportedOperationException();
+	}
 	
 	/**
 	 * sets the jClouds context.

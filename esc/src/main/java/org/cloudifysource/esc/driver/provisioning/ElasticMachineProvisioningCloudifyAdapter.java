@@ -40,6 +40,7 @@ import org.cloudifysource.dsl.internal.CloudifyConstants;
 import org.cloudifysource.dsl.internal.ComputeTemplatesReader;
 import org.cloudifysource.dsl.internal.DSLException;
 import org.cloudifysource.dsl.internal.ServiceReader;
+import org.cloudifysource.dsl.internal.context.RemoteStorageProvisioningDriver;
 import org.cloudifysource.dsl.internal.packaging.ZipUtils;
 import org.cloudifysource.esc.driver.provisioning.context.DefaultProvisioningDriverClassContext;
 import org.cloudifysource.esc.driver.provisioning.context.ProvisioningDriverClassContext;
@@ -713,6 +714,10 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 	@Override
 	public Map<String, String> getProperties() {
 		return this.properties;
+	}
+	
+	public RemoteStorageProvisioningDriver getStorageImpl() {
+		return this.storageProvisioning;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.cloudifysource.dsl.cloud.Cloud;
+import org.cloudifysource.dsl.internal.context.RemoteStorageProvisioningDriver;
 
 /**
  * This interface provides an entry point to provision block storage devices and attach them to specific
@@ -17,7 +18,7 @@ import org.cloudifysource.dsl.cloud.Cloud;
  * @since 2.5.0
  *
  */
-public interface StorageProvisioningDriver {
+public interface StorageProvisioningDriver extends RemoteStorageProvisioningDriver {
 	
 	/**
 	 * Called once at initialization. 
