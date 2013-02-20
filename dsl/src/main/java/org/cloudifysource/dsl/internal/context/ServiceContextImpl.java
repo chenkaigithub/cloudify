@@ -98,7 +98,7 @@ public class ServiceContextImpl implements ServiceContext {
 		this.service = service;
 		this.admin = admin;
 		this.storageProvisioningDriver = getStorageImpl();
-
+		
 		// TODO - is the null path even possible?
 		if (clusterInfo == null) {
 			this.applicationName = CloudifyConstants.DEFAULT_APPLICATION_NAME;
