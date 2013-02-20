@@ -131,10 +131,9 @@ public interface ServiceContext {
 	 * @return the current machine's ID.
 	 */
 	String getMachineID();
+
 	
 	String pingStorage();
-
 	
 	String helloStorage();
-
 }
