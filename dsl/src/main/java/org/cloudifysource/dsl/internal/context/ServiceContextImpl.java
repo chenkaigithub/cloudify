@@ -381,7 +381,10 @@ public class ServiceContextImpl implements ServiceContext {
 	}
 
 	@Override
-	public String helloStorage() {	
-		return storageProvisioningDriver.hello();
+	public String getLocationId() {
+		final String envVar = System
+				.getenv(CloudifyConstants.CLOUDIFY_CLOUD_LOCATION_ID);
+		
+		return envVar;
 	}
 }

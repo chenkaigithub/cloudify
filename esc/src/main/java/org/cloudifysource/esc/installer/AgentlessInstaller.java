@@ -281,6 +281,7 @@ public class AgentlessInstaller {
 				.exportVar(CloudifyConstants.CLOUDIFY_CLOUD_MACHINE_ID, details.getMachineId())
 				// maintain backwards compatibility for pre 2.3.0
 				.exportVar(CloudifyConstants.CLOUDIFY_AGENT_ENV_PRIVATE_IP, details.getPrivateIp())
+				.exportVar(CloudifyConstants.CLOUDIFY_CLOUD_LOCATION_ID, details.getLocationId())
 				.exportVar(CloudifyConstants.CLOUDIFY_AGENT_ENV_PUBLIC_IP, details.getPublicIp());
 		
 		builder.exportVar(STORAGE_VOLUME_ATTACHED, Boolean.toString(details.isStorageVolumeAttached()));
