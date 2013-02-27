@@ -18,6 +18,7 @@ package org.cloudifysource.dsl.context;
 
 import java.util.concurrent.TimeUnit;
 
+import org.cloudifysource.dsl.context.blockstorage.StorageFacade;
 import org.cloudifysource.dsl.context.kvstorage.AttributesFacade;
 
 /***********
@@ -138,4 +139,11 @@ public interface ServiceContext {
 	 * @return - the actual location of the instance(availability zone in case of aws)
 	 */
 	String getLocationId();
+	
+	/*********
+	 * Access to the storage provisioning driver.
+	 * 
+	 * @return - interface for executing storage API calls.
+	 */
+	StorageFacade getStorage();
 }
