@@ -419,7 +419,8 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 			throws TimeoutException, StorageProvisioningException {
 		 long timeout = end - System.currentTimeMillis();
 		String volumeId = volumeDetails.getId();
-		this.storageProvisioning.attachVolume(volumeId, machineIp, timeout, TimeUnit.MILLISECONDS);
+		this.storageProvisioning.attachVolume(volumeId, cloud.getCloudStorage().getTemplates()
+				.get(storageTemplateName).getDeviceName(), machineIp, timeout, TimeUnit.MILLISECONDS);
 	}
 
 	// in-case creation fails, the provisioning driver will clean the new volume.
@@ -427,7 +428,7 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 			StorageProvisioningException {
 		long timeout = end - System.currentTimeMillis();
 		VolumeDetails volumeDetails = this.storageProvisioning
-				.createVolume(machineLocation, timeout, TimeUnit.MILLISECONDS);
+				.createVolume(storageTemplateName, machineLocation, timeout, TimeUnit.MILLISECONDS);
 		return volumeDetails;
 	}
 
@@ -804,7 +805,7 @@ public class ElasticMachineProvisioningCloudifyAdapter implements ElasticMachine
 						((BaseStorageDriver) this.storageProvisioning)
 						.setComputeContext(cloudifyProvisioning.getComputeContext());
 					}
-					this.storageProvisioning.setConfig(cloud, this.cloudTemplateName, this.storageTemplateName);
+					this.storageProvisioning.setConfig(cloud, this.cloudTemplateName);
 					logger.info("storage provisioning driver created successfully.");
 				}
 			} catch (final ClassNotFoundException e) {

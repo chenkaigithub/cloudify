@@ -29,10 +29,11 @@ public interface StorageProvisioningDriver {
 	 * 								name used to provision the machine that this volume is dedicated to.
 	 * @param storageTemplateName - the storage template name of the volume to be provisioned.
 	 */
-	void setConfig(Cloud cloud, String computeTemplateName , String storageTemplateName);
+	void setConfig(Cloud cloud, String computeTemplateName);
 	
 	/**
-	 * 
+	 * @param templateName
+	 * 			The name of the template to be used when starting a new volume.
 	 * @param location
 	 * 			The location where the storage volume will be created.
 	 * @param duration
@@ -45,13 +46,16 @@ public interface StorageProvisioningDriver {
 	 * @throws StorageProvisioningException
 	 * 			on storage creation error. any started volumes will be removed.
 	 */
-	VolumeDetails createVolume(final String location, final long duration, final TimeUnit timeUnit) 
+	VolumeDetails createVolume(final String templateName, 
+			final String location, final long duration, final TimeUnit timeUnit) 
 						throws TimeoutException, StorageProvisioningException;
 	
 	/**
 	 * 
 	 * @param volumeId
 	 * 			the ID of the volume that will attach instance.
+	 * @param device
+	 * 			the device name of the storage volume.
 	 * @param ip
 	 * 			the designated machine instance IP for attaching the volume.
 	 * @param duration
@@ -63,7 +67,8 @@ public interface StorageProvisioningDriver {
 	 * @throws StorageProvisioningException
 	 * 				if volume is already attached, volume and machine not in same location etc.
 	 */
-	void attachVolume(final String volumeId, final String ip, final long duration, final TimeUnit timeUnit) 
+	void attachVolume(final String volumeId, final String device,
+			final String ip, final long duration, final TimeUnit timeUnit) 
 						throws TimeoutException, StorageProvisioningException;
 	
 	/**
