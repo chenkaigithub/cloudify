@@ -164,7 +164,7 @@ public final class CloudifyConstants {
 	public static final String CLOUDIFY_AGENT_ENV_PRIVATE_IP = "CLOUDIFY_AGENT_ENV_PRIVATE_IP";
 	public static final String CLOUDIFY_AGENT_ENV_PUBLIC_IP = "CLOUDIFY_AGENT_ENV_PUBLIC_IP";
 	public static final String CLOUDIFY_CLOUD_MACHINE_ID = "CLOUDIFY_CLOUD_MACHINE_ID";
-
+	public static final String CLOUDIFY_CLOUD_LOCATION_ID = "CLOUDIFY_CLOUD_LOCATION_ID";
 	public static final String CLOUDIFY_LINK_ENV = "GIGASPACES_LINK";
 	public static final String CLOUDIFY_OVERRIDES_LINK_ENV = "GIGASPACES_OVERRIDES_LINK";
 

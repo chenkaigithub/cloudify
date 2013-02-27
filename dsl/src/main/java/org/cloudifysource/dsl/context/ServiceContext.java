@@ -131,8 +131,11 @@ public interface ServiceContext {
 	 * @return the current machine's ID.
 	 */
 	String getMachineID();
-
-	
-	String helloStorage();
-
+		
+	/********
+	 * Return the current machine's location id.
+	 * 
+	 * @return - the actual location of the instance(availability zone in case of aws)
+	 */
+	String getLocationId();
 }
