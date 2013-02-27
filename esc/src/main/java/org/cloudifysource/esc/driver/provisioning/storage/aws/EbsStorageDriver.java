@@ -78,25 +78,29 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 	private String region;
 	private ComputeServiceContext context;
 	private ElasticBlockStoreClient ebsClient;
-	private StorageTemplate storageTemplate;
 	private TagApi tagApi;
+	private ComputeTemplate computeTemplate;
 
+	
 	@Override
-	public void setConfig(final Cloud cloud, final String computeTemplateName,
-			final String storageTemplateName) {
+	public void setConfig(final Cloud cloud, final String computeTemplateName) {
 		this.cloud = cloud;
 		this.region = cloud.getCloudCompute().getTemplates().get(computeTemplateName).getLocationId();
-		this.storageTemplate = cloud.getCloudStorage().getTemplates().get(storageTemplateName);
+		this.computeTemplate = cloud.getCloudCompute().getTemplates().get(computeTemplateName);
 		this.initContext();
 		this.initEbsClient();
 	}
 
 	@Override
-	public VolumeDetails createVolume(final String availabilityZone, final long duration, final TimeUnit timeUnit)
+	public VolumeDetails createVolume(final String templateName, final String availabilityZone, 
+			final long duration, final TimeUnit timeUnit)
 			throws TimeoutException, StorageProvisioningException {
 		
+		
+		StorageTemplate storageTemplate = cloud.getCloudStorage().getTemplates().get(templateName);
+		
 		final long end = System.currentTimeMillis() + timeUnit.toMillis(duration);
-		int size = this.storageTemplate.getSize();
+		int size = storageTemplate.getSize();
 		if (size < MIN_VOLUME_SIZE || size > MAX_VOLUME_SIZE) {
 			throw new StorageProvisioningException("Volume size must be set to a value between " 
 					+ MIN_VOLUME_SIZE + " and " + MAX_VOLUME_SIZE);
@@ -112,7 +116,7 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 			
 			logger.fine("naming created volume with id " + volumeId);
 			TagApi tagApi = getTagsApi();
-			Map<String, String> tagsMap = createTagsMap();
+			Map<String, String> tagsMap = createTagsMap(templateName);
 			tagApi.applyToResources(tagsMap, Arrays.asList(volumeId));
 			logger.fine("Volume created successfully. volume id is: " + volumeId);
 		} catch (Exception e) {
@@ -140,7 +144,7 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 	}
 
 	@Override
-	public void attachVolume(final String volumeId, final String ip, final long duration,
+	public void attachVolume(final String volumeId, final String device, final String ip, final long duration,
 			final TimeUnit timeUnit) throws TimeoutException,
 			StorageProvisioningException {
 
@@ -154,8 +158,8 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 			String instanceId = nodeMetadata.getProviderId();
 			logger.log(Level.FINE, "Attaching volume with id " + volumeId 
 					+ " to machine instance with id " + instanceId);
-			String device = storageTemplate.getDeviceName();
-			this.ebsClient.attachVolumeInRegion(this.region, 
+			String region = this.computeTemplate.getLocationId();
+			this.ebsClient.attachVolumeInRegion(region, 
 					volumeId, instanceId, device);
 			
 		} catch (Exception e) {
@@ -353,9 +357,9 @@ public class EbsStorageDriver extends BaseStorageDriver implements StorageProvis
 		}
 	}
 	
-	private Map<String, String> createTagsMap() {
+	private Map<String, String> createTagsMap(final String templateName) {
 		HashMap<String, String> tagsMap = new HashMap<String, String>();
-		String volumeName = this.storageTemplate.getNamePrefix() + "_" 
+		String volumeName = this.cloud.getCloudStorage().getTemplates().get(templateName).getNamePrefix() + "_" 
 								+ System.currentTimeMillis();
 		tagsMap.put(NAME_TAG_KEY, volumeName);
 		return tagsMap;
