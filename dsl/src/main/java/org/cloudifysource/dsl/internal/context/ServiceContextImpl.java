@@ -40,8 +40,8 @@ import org.openspaces.core.cluster.ClusterInfo;
 public class ServiceContextImpl implements ServiceContext {
 
 	private org.cloudifysource.dsl.Service service;
-	private Admin admin;
-	private RemoteStorageProvisioningDriver storageProvisioningDriver;
+	private Admin admin;	
+	private RemoteStorageProvisioningDriver remoteStorageProvisioningDriver;
 	private final String serviceDirectory;
 	private ClusterInfo clusterInfo;
 	private boolean initialized = false;
@@ -97,7 +97,7 @@ public class ServiceContextImpl implements ServiceContext {
 			final ClusterInfo clusterInfo) {
 		this.service = service;
 		this.admin = admin;
-		this.storageProvisioningDriver = getStorageImpl();
+		this.remoteStorageProvisioningDriver = getRemoteStorage();
 		if (clusterInfo == null) {
 			this.applicationName = CloudifyConstants.DEFAULT_APPLICATION_NAME;
 			this.serviceName = service.getName();
@@ -127,17 +127,13 @@ public class ServiceContextImpl implements ServiceContext {
 		initialized = true;
 	}
 
-	private RemoteStorageProvisioningDriver getStorageImpl() {
+	private RemoteStorageProvisioningDriver getRemoteStorage() {
 		ElasticServiceManager elasticServiceManager = null;
 		if (admin != null) {
-			logger.info("waiting for elastic service manager...");
 			elasticServiceManager = admin.getElasticServiceManagers().waitForAtLeastOne();
-			logger.info("found manager " + elasticServiceManager);
 			return (RemoteStorageProvisioningDriver) ((InternalElasticServiceManager)elasticServiceManager).getStorageApi(ServiceUtils.getAbsolutePUName(applicationName, serviceName));
-		} else {
-			logger.info("admin is null!!");
-			return null;
 		}
+		return null;
 	}
 
 	/************
@@ -379,7 +375,7 @@ public class ServiceContextImpl implements ServiceContext {
 		
 		return envVar;
 	}
-
+	
 	@Override
 	public String getLocationId() {
 		final String envVar = System

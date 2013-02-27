@@ -25,11 +25,6 @@ import java.util.Set;
  */
 public abstract class BaseStorageDriver implements StorageProvisioningDriver {
 
-	@Override
-	public String hello() {
-		throw new UnsupportedOperationException();
-	}
-	
 	/**
 	 * sets the jClouds context.
 	 * @param computeContext
