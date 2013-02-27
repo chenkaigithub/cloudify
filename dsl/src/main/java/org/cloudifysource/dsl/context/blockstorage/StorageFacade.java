@@ -25,8 +25,7 @@ import java.rmi.RemoteException;
  */
 public interface StorageFacade {
 	
-	/**
-	 * 
+	/*************************
 	 * Attaches a volume storage device to the local machine.
 	 * This method will also mount the device onto the FileSystem so it will be ready to use.
 	 * @param volumeId - the id of the volume to be attached.
@@ -37,11 +36,18 @@ public interface StorageFacade {
 	void attachVolume(final String volumeId, final String device, final String path) throws RemoteException;
 	
 	
-	/**
-	 * 
+	/***************************
 	 * @param templateName - the storage template name to be used when creating the volume.
 	 * @return the volume id.
+	 * @throws RemoteException - thrown in case something went wrong during the remote call.
 	 */
-	String createVolume(final String templateName);
+	String createVolume(final String templateName) throws RemoteException;
+	
+	/***************************
+	 * detaches the volume from the machine.
+	 * @param volumeId - the volume id to detach.
+	 * @throws RemoteException - thrown in case something went wrong during the remote call.
+	 */
+	void detachVolume(final String volumeId) throws RemoteException;
 
 }

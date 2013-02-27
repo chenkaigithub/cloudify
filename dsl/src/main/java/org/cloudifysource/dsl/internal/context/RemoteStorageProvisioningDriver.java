@@ -32,6 +32,8 @@ public interface RemoteStorageProvisioningDriver extends Remote {
 	
 	void attachVolume(final String volumeId, String device, final String ip) throws RemoteException;
 	
-	String createVolume(final String templateName);
+	String createVolume(final String templateName) throws RemoteException;
+	
+	void detachVolume(final String volumeId, String ip) throws RemoteException;
 
 }

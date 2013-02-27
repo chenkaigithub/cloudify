@@ -28,6 +28,8 @@ import org.cloudifysource.dsl.internal.context.RemoteStorageProvisioningDriver;
  */
 public class RemoteStorageProvisioningDriverAdapter implements RemoteStorageProvisioningDriver {
 
+	private static final long DEFAULT_STORAGE_OPERATION_TIMEOUT = 60 * 1000;
+	
 	private StorageProvisioningDriver storageProvisioningDriver;
 	
 	public RemoteStorageProvisioningDriverAdapter(final StorageProvisioningDriver driver) {
@@ -37,9 +39,8 @@ public class RemoteStorageProvisioningDriverAdapter implements RemoteStorageProv
 	@Override
 	public void attachVolume(final String volumeId, final String device, final String ip) throws RemoteException {
 		try {
-			long defaultDuration = 0;
-			TimeUnit a = TimeUnit.SECONDS;
-			storageProvisioningDriver.attachVolume(volumeId, device, ip, defaultDuration, a);
+			storageProvisioningDriver
+				.attachVolume(volumeId, device, ip, DEFAULT_STORAGE_OPERATION_TIMEOUT, TimeUnit.MILLISECONDS);
 		} catch (final Exception e) {
 			throw new RemoteException("Failed attaching volume with id " + volumeId 
 					+ " to instance with ip " + ip + " : " + e.getMessage(), e);
@@ -49,6 +50,17 @@ public class RemoteStorageProvisioningDriverAdapter implements RemoteStorageProv
 	@Override
 	public String createVolume(final String templateName) {	
 		return null;
+	}
+
+	@Override
+	public void detachVolume(final String volumeId, final String ip) throws RemoteException {		
+		try {
+			storageProvisioningDriver
+				.detachVolume(volumeId, ip, DEFAULT_STORAGE_OPERATION_TIMEOUT, TimeUnit.MILLISECONDS);
+		} catch (final Exception e) {
+			throw new RemoteException("Failed detaching volume with id " + 
+					volumeId + " to instance with ip " + ip, e);
+		}
 	}
 	
 	
