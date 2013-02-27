@@ -48,7 +48,12 @@ public class StorageFacadeImpl implements StorageFacade {
 	}
 
 	@Override
-	public String createVolume(final String templateName) {		
+	public String createVolume(final String templateName) throws RemoteException {		
 		return remoteStorageProvisioningDriver.createVolume(templateName);
+	}
+
+	@Override
+	public void detachVolume(final String volumeId) throws RemoteException {
+		remoteStorageProvisioningDriver.detachVolume(volumeId, serviceContext.getPrivateAddress());
 	}
 }
